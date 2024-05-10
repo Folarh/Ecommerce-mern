@@ -1,3 +1,5 @@
+import mongoose from "mongoose";
+
 const ProductSchema = new mongoose.Schema(
   {
     name: {
@@ -16,6 +18,12 @@ const ProductSchema = new mongoose.Schema(
       required: [true, "Please provide product description"],
       maxlength: [1000, "Description can not be more than 1000 characters"],
     },
+
+    productStatus: {
+      type: String,
+      enum: ["in-stock", "out-of-stock"],
+      default: "in-stock",
+    },
     image: {
       type: String,
       default: "/uploads/example.jpeg",
@@ -23,13 +31,13 @@ const ProductSchema = new mongoose.Schema(
     category: {
       type: String,
       required: [true, "Please provide product category"],
-      enum: ["office", "kitchen", "bedroom"],
+      enum: ["men", "women", "children"],
     },
     company: {
       type: String,
       required: [true, "Please provide company"],
       enum: {
-        values: ["ikea", "liddy", "marcos"],
+        values: ["D&G", "ARMANI", "DIOR", "OOUD"],
         message: "{VALUE} is not supported",
       },
     },
@@ -59,12 +67,14 @@ const ProductSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
-    user: {
-      type: mongoose.Types.ObjectId,
-      ref: "User",
-      required: true,
-    },
-  }
+    // user: {
+    //   type: mongoose.Types.ObjectId,
+    //   ref: "User",
+    //   required: true,
+    // },
+  },
+  { timestamps: true }
+
   //   { timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } }
 );
 

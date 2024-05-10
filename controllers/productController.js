@@ -1,5 +1,10 @@
+import Product from "../models/productModel.js";
+
 export const createProduct = async (req, res) => {
-  res.status(201).json({ msg: "welcome" });
+  // const {name,price, description}= req.body
+  const productData = req.body;
+  const product = await Product.create(productData);
+  res.status(201).json({ msg: "Product created", product });
 };
 export const getAllProducts = async (req, res) => {
   // const products = await Product.find({});

@@ -19,6 +19,6 @@ router
   .patch(updateProduct)
   .delete(deleteProduct);
 
-router.route("/:id/reviews").get(getSingleProductReviews);
+// router.route("/:id/reviews").get(getSingleProductReviews);
 
-module.exports = router;
+export default router;
