@@ -3,22 +3,37 @@ const router = Router();
 import {
   createProduct,
   getAllProducts,
-  uploadImage,
   getSingleProduct,
   updateProduct,
   deleteProduct,
 } from "../controllers/productController.js";
+import { validateProductInput } from "../middleware/validationMiddleware.js";
 
-router.route("/").post(createProduct).get(getAllProducts);
+import {
+  authorizePermissions,
+  authenticateUser,
+} from "../middleware/authMiddleware.js";
 
-router.route("/uploadImage").post(uploadImage);
+// ALTERNATE METHOD
+router
+  .route("/")
+  .get(getAllProducts)
 
+  .post(validateProductInput, authenticateUser, createProduct, [
+    authorizePermissions("admin"),
+  ]);
 router
   .route("/:id")
   .get(getSingleProduct)
-  .patch(updateProduct)
-  .delete(deleteProduct);
 
-// router.route("/:id/reviews").get(getSingleProductReviews);
+  .patch(
+    validateProductInput,
+
+    authenticateUser,
+    updateProduct,
+    [authorizePermissions("admin")]
+  )
+
+  .delete(authenticateUser, deleteProduct, [authorizePermissions("admin")]);
 
 export default router;

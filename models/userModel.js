@@ -8,10 +8,6 @@ const UserSchema = new mongoose.Schema({
     type: String,
     default: "lastName",
   },
-  location: {
-    type: String,
-    default: "my city",
-  },
   role: {
     type: String,
     enum: ["user", "admin"],

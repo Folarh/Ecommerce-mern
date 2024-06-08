@@ -1,28 +1,22 @@
 import mongoose from "mongoose";
 
+import { PRODUCT_STATUS, PRODUCT_CATEGORY } from "../utils/constants.js";
+
 const ProductSchema = new mongoose.Schema(
   {
-    name: {
-      type: String,
-      trim: true,
-      required: [true, "Please provide product name"],
-      maxlength: [100, "Name can not be more than 100 characters"],
-    },
-    price: {
-      type: Number,
-      required: [true, "Please provide product price"],
-      default: 0,
-    },
-    description: {
-      type: String,
-      required: [true, "Please provide product description"],
-      maxlength: [1000, "Description can not be more than 1000 characters"],
-    },
-
+    name: String,
+    price: Number,
+    description: String,
+    company: String,
+    colors: String,
+    featured: Boolean,
+    freeShipping: Boolean,
+    inventory: Number,
+    numOfReviews: Number,
     productStatus: {
       type: String,
-      enum: ["in-stock", "out-of-stock"],
-      default: "in-stock",
+      enum: Object.values(PRODUCT_STATUS),
+      default: PRODUCT_STATUS.NEW,
     },
     image: {
       type: String,
@@ -30,43 +24,10 @@ const ProductSchema = new mongoose.Schema(
     },
     category: {
       type: String,
-      required: [true, "Please provide product category"],
-      enum: ["men", "women", "children"],
+      enum: Object.values(PRODUCT_CATEGORY),
+      default: PRODUCT_CATEGORY.FASHION,
     },
-    company: {
-      type: String,
-      required: [true, "Please provide company"],
-      enum: {
-        values: ["D&G", "ARMANI", "DIOR", "OOUD"],
-        message: "{VALUE} is not supported",
-      },
-    },
-    colors: {
-      type: [String],
-      default: ["#222"],
-      required: true,
-    },
-    featured: {
-      type: Boolean,
-      default: false,
-    },
-    freeShipping: {
-      type: Boolean,
-      default: false,
-    },
-    inventory: {
-      type: Number,
-      required: true,
-      default: 15,
-    },
-    averageRating: {
-      type: Number,
-      default: 0,
-    },
-    numOfReviews: {
-      type: Number,
-      default: 0,
-    },
+
     // user: {
     //   type: mongoose.Types.ObjectId,
     //   ref: "User",
@@ -74,19 +35,6 @@ const ProductSchema = new mongoose.Schema(
     // },
   },
   { timestamps: true }
-
-  //   { timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } }
 );
-
-//   ProductSchema.virtual('reviews', {
-//     ref: 'Review',
-//     localField: '_id',
-//     foreignField: 'product',
-//     justOne: false,
-//   });
-
-//   ProductSchema.pre('remove', async function (next) {
-//     await this.model('Review').deleteMany({ product: this._id });
-//   });
 
 export default mongoose.model("Product", ProductSchema);

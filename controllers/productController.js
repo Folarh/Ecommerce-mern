@@ -5,8 +5,9 @@ import { StatusCodes } from "http-status-codes";
 export const createProduct = async (req, res) => {
   const productData = req.body;
   const product = await Product.create(productData);
-  res.status(StatusCodes.CREATED).json({ msg: "Product created", product });
+  res.status(StatusCodes.CREATED).json({ msg: "Success", product });
 };
+
 export const getAllProducts = async (req, res) => {
   const products = await Product.find({});
   res.status(StatusCodes.OK).json({ products });
